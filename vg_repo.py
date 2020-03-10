@@ -1,34 +1,27 @@
 """author: viren ghori"""
+import unittest
 
-import json
-import requests
+from HW02a_VGhori import classify_triangle
 
-def get_repo_info(usr_name='ywang567'):
-    """get users repository"""
-    output = []
-    usr_url = 'https://api.github.com/users/{}/repos'.format(usr_name)
-    res = requests.get(usr_url)
-    repos = json.loads(res.text)
-    output.append('User: {}'.format(usr_name))
+class TestTriangles(unittest.TestCase):
 
-    try:
-        repos[0]['name']
-    except (TypeError, KeyError, IndexError):
-        return 'can not fetch repos from user'
+    def testEquilateralTriangle1(self): 
+        self.assertEqual(classify_triangle(1,1,1),'Equilateral Triangle')
 
-    try:
-        for repo in repos:
-            repo_name = repo['name']
-            repo_url = 'https://api.github.com/repos/{}/{}/commits'.format(usr_name, repo_name)
-            repo_if = requests.get(repo_url)
-            repo_if_json = json.loads(repo_if.text)
-            output.append('Repo: {} Number of commits: {}'.format(repo_name, len(repo_if_json)))
-    except (TypeError, KeyError, IndexError):
-        return 'can not fetch commits from repo'
-    return output
+    def testEquilateralTriangle2(self): 
+        self.assertEqual(classify_triangle(2,2,2),'Equilateral Triangle')
 
+    def testIsocelesTriangle3(self): 
+        self.assertEqual(classify_triangle(2,2,1),'Isosceles Triangle')
+    
+    def testIsocelesTriangle4(self):     
+        self.assertEqual(classify_triangle(2,1,2),'Isosceles Triangle')
+
+    def testRightTriangle5(self): 
+        self.assertEqual(classify_triangle(1,2,3),'Right Angled Triangle')
+
+    def testScaleneTriangleA(self): 
+        self.assertEqual(classify_triangle(6,5,4),'Scalene Triangle')
 
 if __name__ == '__main__':
-    """call main function"""
-    for entry in get_repo_info():
-        print(entry)
+    unittest.main()
