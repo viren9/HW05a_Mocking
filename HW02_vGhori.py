@@ -1,7 +1,7 @@
 """author: viren ghori"""
 import unittest
 
-from HW02a_VGhori import classify_triangle
+from HW02_VGhori import classify_triangle
 
 class TestTriangles(unittest.TestCase):
 
